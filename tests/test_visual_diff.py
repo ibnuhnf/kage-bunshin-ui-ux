@@ -14,7 +14,7 @@ import numpy as np
 import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
-from visual_diff import (
+from visual_diff import (  # type: ignore[import-unresolved]
     calculate_metrics,
     evaluate_quality_gate,
     load_and_preprocess_images,

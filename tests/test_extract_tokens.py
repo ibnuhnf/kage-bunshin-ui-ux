@@ -14,7 +14,7 @@ import numpy as np
 import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
-from extract_tokens import (
+from extract_tokens import (  # type: ignore[import-unresolved]
     assign_semantic_roles,
     calculate_contrast_ratio,
     calculate_relative_luminance,
@@ -205,7 +205,7 @@ class TestTokensJson:
 class TestRadiusScale:
     def test_estimate_corner_radii_returns_all_keys(self):
         from PIL import Image
-        from extract_tokens import estimate_corner_radii
+        from extract_tokens import estimate_corner_radii  # type: ignore[import-unresolved]
         img = Image.new("RGB", (10, 10))
         radii = estimate_corner_radii(img)
         expected = {"none", "sm", "md", "lg", "xl", "full"}
