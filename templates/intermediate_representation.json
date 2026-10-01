@@ -1,0 +1,312 @@
+{
+  "$comment": "Template + worked example of the Design Intermediate Representation (IR). Copy this file, fill it from Phase-1 analysis, and treat it as the single source of truth every target (Figma, Stitch, code) is transpiled from. tokens.* MUST validate against templates/tokens.schema.json. Never store absolute pixel positions here: the tree captures hierarchy + flow, and layout is reconstructed by the target, not mapped from the screenshot.",
+  "irVersion": "1.0.0",
+  "source": {
+    "kind": "screenshot",
+    "ref": "assets/hero-shot.png",
+    "width": 1440,
+    "height": 900,
+    "deviceScaleFactor": 2,
+    "capturedAt": "2025-01-01T00:00:00Z"
+  },
+  "tokens": {
+    "$ref": "./tokens.schema.json",
+    "version": "1.0.0",
+    "source": {
+      "kind": "screenshot",
+      "ref": "assets/hero-shot.png",
+      "width": 1440,
+      "height": 900,
+      "deviceScaleFactor": 2
+    },
+    "color": {
+      "background": {
+        "hex": "#0b0d12",
+        "rgb": { "r": 0.043, "g": 0.051, "b": 0.071 },
+        "contrastOnWhite": 19.4,
+        "contrastOnBlack": 1.08
+      },
+      "surface": {
+        "hex": "#151922",
+        "rgb": { "r": 0.082, "g": 0.098, "b": 0.133 },
+        "contrastOnWhite": 15.6,
+        "contrastOnBlack": 1.35
+      },
+      "surfaceSubtle": {
+        "hex": "#1e2430",
+        "rgb": { "r": 0.118, "g": 0.141, "b": 0.188 }
+      },
+      "primary": {
+        "hex": "#5b8cff",
+        "rgb": { "r": 0.357, "g": 0.549, "b": 1.0 },
+        "role": "brand accent on primary CTA and focus rings",
+        "contrastOnWhite": 3.1,
+        "contrastOnBlack": 6.7,
+        "wcag": { "aaNormalText": false, "aaLargeText": true, "aaaNormalText": false }
+      },
+      "border": {
+        "hex": "#2a3140",
+        "rgb": { "r": 0.165, "g": 0.192, "b": 0.251 }
+      },
+      "textPrimary": {
+        "hex": "#f4f7fb",
+        "rgb": { "r": 0.957, "g": 0.969, "b": 0.984 },
+        "contrastOnWhite": 1.1,
+        "contrastOnBlack": 19.6,
+        "wcag": { "aaNormalText": true, "aaLargeText": true, "aaaNormalText": true }
+      },
+      "textSecondary": {
+        "hex": "#9aa4b2",
+        "rgb": { "r": 0.604, "g": 0.643, "b": 0.698 },
+        "contrastOnWhite": 2.9,
+        "contrastOnBlack": 7.2,
+        "wcag": { "aaNormalText": false, "aaLargeText": true, "aaaNormalText": false }
+      },
+      "palette": [
+        { "hex": "#0b0d12", "coverage": 0.42 },
+        { "hex": "#151922", "coverage": 0.21 },
+        { "hex": "#f4f7fb", "coverage": 0.12 },
+        { "hex": "#5b8cff", "coverage": 0.08 }
+      ]
+    },
+    "typography": {
+      "fontFamilies": [
+        { "role": "heading", "family": "Inter", "fallback": "system-ui, sans-serif", "googleFont": true },
+        { "role": "body", "family": "Inter", "fallback": "system-ui, sans-serif", "googleFont": true },
+        { "role": "mono", "family": "JetBrains Mono", "fallback": "ui-monospace, monospace", "googleFont": true }
+      ],
+      "scale": {
+        "display": { "fontSize": 56, "lineHeight": 64, "fontWeight": 700, "letterSpacing": -1.2, "fontFamilyRole": "heading" },
+        "headingLg": { "fontSize": 36, "lineHeight": 44, "fontWeight": 700, "letterSpacing": -0.6, "fontFamilyRole": "heading" },
+        "headingMd": { "fontSize": 24, "lineHeight": 32, "fontWeight": 600, "letterSpacing": -0.2, "fontFamilyRole": "heading" },
+        "bodyLg": { "fontSize": 18, "lineHeight": 28, "fontWeight": 400, "fontFamilyRole": "body" },
+        "bodyMd": { "fontSize": 16, "lineHeight": 24, "fontWeight": 400, "fontFamilyRole": "body" },
+        "bodySm": { "fontSize": 14, "lineHeight": 20, "fontWeight": 400, "fontFamilyRole": "body" },
+        "caption": { "fontSize": 12, "lineHeight": 16, "fontWeight": 500, "letterSpacing": 0.4, "textTransform": "uppercase", "fontFamilyRole": "body" }
+      }
+    },
+    "spacing": {
+      "base": 4,
+      "scale": { "xs": 4, "sm": 8, "md": 16, "lg": 24, "xl": 32, "2xl": 48, "3xl": 64, "4xl": 96 }
+    },
+    "radius": { "none": 0, "sm": 6, "md": 10, "lg": 16, "full": 9999 },
+    "shadow": {
+      "md": { "x": 0, "y": 8, "blur": 24, "spread": -8, "color": "#00000033" },
+      "lg": { "x": 0, "y": 24, "blur": 64, "spread": -16, "color": "#00000055" }
+    },
+    "motion": {
+      "duration": { "fast": "120ms", "base": "200ms", "slow": "320ms" },
+      "easing": { "standard": "cubic-bezier(0.2, 0, 0, 1)" }
+    }
+  },
+  "layout": {
+    "$comment": "Layout tree. Each node has an id (stable within this IR), a role, and either children or a leaf kind. Flow is expressed with `direction`, `gap`, `padding`, `align`, `justify` — the same vocabulary Figma Auto Layout and CSS flexbox share. `sizing` values: 'hug' (content), 'fill' (stretch to parent), 'fixed' (explicit size).",
+    "root": "page",
+    "nodes": {
+      "page": {
+        "role": "page",
+        "kind": "container",
+        "direction": "column",
+        "gap": 0,
+        "padding": { "top": 0, "right": 0, "bottom": 0, "left": 0 },
+        "background": "color.background",
+        "sizing": { "width": "fixed", "height": "hug" },
+        "fixedWidth": 1440,
+        "children": ["navbar", "hero", "featureGrid", "footer"]
+      },
+      "navbar": {
+        "role": "navigation",
+        "kind": "container",
+        "direction": "horizontal",
+        "gap": "spacing.lg",
+        "padding": { "top": "spacing.md", "right": "spacing.xl", "bottom": "spacing.md", "left": "spacing.xl" },
+        "align": "center",
+        "justify": "space-between",
+        "background": "color.surface",
+        "borderBottom": "color.border",
+        "sizing": { "width": "fill", "height": "hug" },
+        "children": ["brand", "navLinks", "navCta"]
+      },
+      "brand": {
+        "role": "logo",
+        "kind": "text",
+        "text": "Kage",
+        "textStyle": "typography.scale.headingMd",
+        "color": "color.textPrimary",
+        "sizing": { "width": "hug", "height": "hug" }
+      },
+      "navLinks": {
+        "role": "nav-links",
+        "kind": "container",
+        "direction": "horizontal",
+        "gap": "spacing.lg",
+        "align": "center",
+        "sizing": { "width": "hug", "height": "hug" },
+        "children": ["navLink1", "navLink2", "navLink3"]
+      },
+      "navLink1": { "role": "nav-link", "kind": "text", "text": "Product", "textStyle": "typography.scale.bodyMd", "color": "color.textSecondary", "sizing": { "width": "hug", "height": "hug" } },
+      "navLink2": { "role": "nav-link", "kind": "text", "text": "Pricing", "textStyle": "typography.scale.bodyMd", "color": "color.textSecondary", "sizing": { "width": "hug", "height": "hug" } },
+      "navLink3": { "role": "nav-link", "kind": "text", "text": "Docs", "textStyle": "typography.scale.bodyMd", "color": "color.textSecondary", "sizing": { "width": "hug", "height": "hug" } },
+      "navCta": {
+        "role": "button-primary",
+        "kind": "instance",
+        "component": "Button",
+        "variant": { "size": "sm", "tone": "primary" },
+        "text": "Get started",
+        "sizing": { "width": "hug", "height": "hug" }
+      },
+      "hero": {
+        "role": "hero",
+        "kind": "container",
+        "direction": "column",
+        "gap": "spacing.lg",
+        "padding": { "top": "spacing.4xl", "right": "spacing.xl", "bottom": "spacing.4xl", "left": "spacing.xl" },
+        "align": "center",
+        "justify": "start",
+        "background": "color.background",
+        "sizing": { "width": "fill", "height": "hug" },
+        "children": ["heroTitle", "heroSubtitle", "heroActions"]
+      },
+      "heroTitle": {
+        "role": "display-heading",
+        "kind": "text",
+        "text": "Clone any interface, pixel for pixel.",
+        "textStyle": "typography.scale.display",
+        "color": "color.textPrimary",
+        "textAlign": "center",
+        "sizing": { "width": "fill", "height": "hug" },
+        "maxWidth": 720
+      },
+      "heroSubtitle": {
+        "role": "subtitle",
+        "kind": "text",
+        "text": "Screenshot in, editable Figma, Stitch, or code out.",
+        "textStyle": "typography.scale.bodyLg",
+        "color": "color.textSecondary",
+        "textAlign": "center",
+        "sizing": { "width": "fill", "height": "hug" },
+        "maxWidth": 560
+      },
+      "heroActions": {
+        "role": "cta-group",
+        "kind": "container",
+        "direction": "horizontal",
+        "gap": "spacing.md",
+        "align": "center",
+        "sizing": { "width": "hug", "height": "hug" },
+        "children": ["heroPrimary", "heroSecondary"]
+      },
+      "heroPrimary": {
+        "role": "button-primary",
+        "kind": "instance",
+        "component": "Button",
+        "variant": { "size": "lg", "tone": "primary" },
+        "text": "Start cloning",
+        "sizing": { "width": "hug", "height": "hug" }
+      },
+      "heroSecondary": {
+        "role": "button-secondary",
+        "kind": "instance",
+        "component": "Button",
+        "variant": { "size": "lg", "tone": "ghost" },
+        "text": "View docs",
+        "sizing": { "width": "hug", "height": "hug" }
+      },
+      "featureGrid": {
+        "role": "feature-grid",
+        "kind": "container",
+        "direction": "horizontal",
+        "gap": "spacing.lg",
+        "padding": { "top": "spacing.3xl", "right": "spacing.xl", "bottom": "spacing.3xl", "left": "spacing.xl" },
+        "wrap": true,
+        "background": "color.background",
+        "sizing": { "width": "fill", "height": "hug" },
+        "children": ["card1", "card2", "card3"]
+      },
+      "card1": { "role": "feature-card", "kind": "instance", "component": "Card", "variant": { "tone": "elevated" }, "sizing": { "width": "fill", "height": "hug" }, "grow": 1 },
+      "card2": { "role": "feature-card", "kind": "instance", "component": "Card", "variant": { "tone": "elevated" }, "sizing": { "width": "fill", "height": "hug" }, "grow": 1 },
+      "card3": { "role": "feature-card", "kind": "instance", "component": "Card", "variant": { "tone": "elevated" }, "sizing": { "width": "fill", "height": "hug" }, "grow": 1 },
+      "footer": {
+        "role": "footer",
+        "kind": "container",
+        "direction": "horizontal",
+        "gap": "spacing.md",
+        "padding": { "top": "spacing.lg", "right": "spacing.xl", "bottom": "spacing.lg", "left": "spacing.xl" },
+        "align": "center",
+        "justify": "space-between",
+        "background": "color.surface",
+        "borderTop": "color.border",
+        "sizing": { "width": "fill", "height": "hug" },
+        "children": ["footerNote", "footerLinks"]
+      },
+      "footerNote": { "role": "footnote", "kind": "text", "text": "© 2025 Kage", "textStyle": "typography.scale.bodySm", "color": "color.textSecondary", "sizing": { "width": "hug", "height": "hug" } },
+      "footerLinks": {
+        "role": "footer-links",
+        "kind": "container",
+        "direction": "horizontal",
+        "gap": "spacing.md",
+        "sizing": { "width": "hug", "height": "hug" },
+        "children": ["footerLink1", "footerLink2"]
+      },
+      "footerLink1": { "role": "footer-link", "kind": "text", "text": "Privacy", "textStyle": "typography.scale.bodySm", "color": "color.textSecondary", "sizing": { "width": "hug", "height": "hug" } },
+      "footerLink2": { "role": "footer-link", "kind": "text", "text": "Terms", "textStyle": "typography.scale.bodySm", "color": "color.textSecondary", "sizing": { "width": "hug", "height": "hug" } }
+    }
+  },
+  "components": {
+    "$comment": "Reusable component specs, keyed by the `component` names referenced in the layout tree. These become Figma Component Sets, Stitch component anatomy, and code components.",
+    "Button": {
+      "variants": [
+        { "size": "sm", "tone": "primary" },
+        { "size": "lg", "tone": "primary" },
+        { "size": "lg", "tone": "ghost" }
+      ],
+      "anatomy": {
+        "kind": "container",
+        "direction": "horizontal",
+        "align": "center",
+        "justify": "center",
+        "gap": "spacing.sm",
+        "root": {
+          "radius": "radius.md",
+          "spacingBySize": { "sm": { "paddingX": "spacing.md", "paddingY": "spacing.sm" }, "lg": { "paddingX": "spacing.lg", "paddingY": "spacing.md" } },
+          "minHeightBySize": { "sm": 36, "lg": 48 },
+          "typeBySize": { "sm": "typography.scale.bodyMd", "lg": "typography.scale.bodyLg" }
+        },
+        "tones": {
+          "primary": { "background": "color.primary", "text": "color.background" },
+          "ghost": { "background": "transparent", "text": "color.textPrimary", "border": "color.border" }
+        },
+        "states": {
+          "default": {},
+          "hover": { "filter": "brightness(1.08)" },
+          "active": { "transform": "scale(0.98)" },
+          "focus": { "outlineColor": "color.primary", "outlineWidth": 2, "outlineOffset": 2 },
+          "disabled": { "opacity": 0.5, "cursor": "not-allowed" }
+        }
+      }
+    },
+    "Card": {
+      "variants": [{ "tone": "elevated" }],
+      "anatomy": {
+        "kind": "container",
+        "direction": "column",
+        "gap": "spacing.md",
+        "root": {
+          "padding": "spacing.lg",
+          "radius": "radius.lg",
+          "minHeight": 200,
+          "tones": { "elevated": { "background": "color.surface", "border": "color.border", "shadow": "shadow.md" } }
+        }
+      }
+    }
+  },
+  "verification": {
+    "$comment": "Filled by the Phase-3 adversarial loop. Leave null before the first render.",
+    "target": null,
+    "iterations": 0,
+    "ssim": null,
+    "mae": null,
+    "converged": false,
+    "residualNotes": []
+  }
+}

@@ -1,0 +1,277 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/OWNER/kage-bunshin-ui-ux/templates/tokens.schema.json",
+  "title": "Kage Bunshin Design Tokens",
+  "description": "Semantic design tokens extracted from a UI source (screenshot or URL). Colors are normalized to 0.0-1.0 to match the Figma Plugin API; a parallel 8-bit representation is kept for CSS output and WCAG contrast math.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "source", "color", "typography", "spacing", "radius"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Schema version. Bump on breaking change."
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["screenshot", "url", "figma"]
+        },
+        "ref": {
+          "type": "string",
+          "description": "Absolute file path, URL, or Figma node reference. Omitted only when the caller supplied raw image bytes."
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Source pixel width after preprocessing."
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Source pixel height after preprocessing."
+        },
+        "deviceScaleFactor": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "default": 1,
+          "description": "DPR at capture time, used to convert measured px back to CSS px."
+        },
+        "capturedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO-8601 capture timestamp."
+        }
+      }
+    },
+    "color": {
+      "type": "object",
+      "description": "Semantic color roles. Each role maps to one concrete color. Palettes of sampled-but-unassigned colors live in `color.palette`.",
+      "additionalProperties": false,
+      "required": ["background", "surface", "textPrimary"],
+      "properties": {
+        "primary": { "$ref": "#/$defs/colorEntry" },
+        "secondary": { "$ref": "#/$defs/colorEntry" },
+        "accent": { "$ref": "#/$defs/colorEntry" },
+        "background": { "$ref": "#/$defs/colorEntry" },
+        "surface": { "$ref": "#/$defs/colorEntry" },
+        "surfaceSubtle": { "$ref": "#/$defs/colorEntry" },
+        "border": { "$ref": "#/$defs/colorEntry" },
+        "textPrimary": { "$ref": "#/$defs/colorEntry" },
+        "textSecondary": { "$ref": "#/$defs/colorEntry" },
+        "success": { "$ref": "#/$defs/colorEntry" },
+        "warning": { "$ref": "#/$defs/colorEntry" },
+        "danger": { "$ref": "#/$defs/colorEntry" },
+        "palette": {
+          "type": "array",
+          "description": "Raw palette sampled from the source, nearest-first. Unassigned colors live here so no signal is lost.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["hex", "coverage"],
+            "properties": {
+              "hex": { "$ref": "#/$defs/hex" },
+              "coverage": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "Fraction of sampled pixels matching this color."
+              }
+            }
+          }
+        }
+      }
+    },
+    "typography": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fontFamilies", "scale"],
+      "properties": {
+        "fontFamilies": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["role", "family"],
+            "properties": {
+              "role": {
+                "type": "string",
+                "enum": ["display", "heading", "body", "mono", "ui"]
+              },
+              "family": {
+                "type": "string",
+                "description": "Primary font family name, e.g. 'Inter'."
+              },
+              "fallback": {
+                "type": "string",
+                "description": "CSS fallback stack, e.g. 'system-ui, sans-serif'."
+              },
+              "googleFont": {
+                "type": "boolean",
+                "default": false,
+                "description": "True when the family is available from Google Fonts, so a target can link it."
+              }
+            }
+          }
+        },
+        "scale": {
+          "type": "object",
+          "description": "Named text styles. Keys are semantic step names (display, headingLg, headingMd, bodyLg, bodyMd, bodySm, caption).",
+          "additionalProperties": { "$ref": "#/$defs/textStyle" }
+        }
+      }
+    },
+    "spacing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["base", "scale"],
+      "properties": {
+        "base": {
+          "type": "integer",
+          "default": 4,
+          "description": "Baseline grid unit in px. The clone assumes a 4px grid."
+        },
+        "scale": {
+          "type": "object",
+          "description": "Named spacing steps to pixel values. Keys are token names (xs, sm, md, lg, xl, 2xl).",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "examples": [
+            { "xs": 4, "sm": 8, "md": 16, "lg": 24, "xl": 32, "2xl": 48 }
+          ]
+        }
+      }
+    },
+    "radius": {
+      "type": "object",
+      "description": "Corner radii in px. `none` is always 0.",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "properties": {
+        "none": { "type": "integer", "const": 0 },
+        "sm": { "type": "integer" },
+        "md": { "type": "integer" },
+        "lg": { "type": "integer" },
+        "full": { "type": "integer", "description": "Fully rounded; use a large sentinel like 9999." }
+      }
+    },
+    "shadow": {
+      "type": "object",
+      "description": "Elevation shadows, keyed by level (sm, md, lg).",
+      "additionalProperties": { "$ref": "#/$defs/shadow" }
+    },
+    "motion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "duration": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "examples": [{ "fast": "120ms", "base": "200ms", "slow": "320ms" }]
+        },
+        "easing": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "examples": [{ "standard": "cubic-bezier(0.2, 0, 0, 1)" }]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "hex": {
+      "type": "string",
+      "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+      "description": "Hex color: #rgb, #rrggbb, or #rrggbbaa."
+    },
+    "colorEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hex", "rgb"],
+      "properties": {
+        "hex": { "$ref": "#/$defs/hex" },
+        "rgb": {
+          "type": "object",
+          "description": "Normalized 0.0-1.0 channels, exactly what the Figma Plugin API consumes.",
+          "additionalProperties": false,
+          "required": ["r", "g", "b"],
+          "properties": {
+            "r": { "type": "number", "minimum": 0, "maximum": 1 },
+            "g": { "type": "number", "minimum": 0, "maximum": 1 },
+            "b": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "alpha": { "type": "number", "minimum": 0, "maximum": 1, "default": 1 },
+        "role": {
+          "type": "string",
+          "description": "Optional human note, e.g. 'primary brand accent used on CTAs'."
+        },
+        "contrastOnWhite": {
+          "type": "number",
+          "minimum": 1,
+          "description": "WCAG 2.1 contrast ratio of this color against white. Filled by scripts/extract_tokens.py."
+        },
+        "contrastOnBlack": {
+          "type": "number",
+          "minimum": 1,
+          "description": "WCAG 2.1 contrast ratio against black."
+        },
+        "wcag": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Conformance summary emitted by scripts/extract_tokens.py.",
+          "properties": {
+            "aaNormalText": { "type": "boolean" },
+            "aaLargeText": { "type": "boolean" },
+            "aaaNormalText": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "textStyle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fontSize", "lineHeight", "fontWeight"],
+      "properties": {
+        "fontSize": { "type": "number", "exclusiveMinimum": 0, "description": "px." },
+        "lineHeight": { "type": "number", "exclusiveMinimum": 0, "description": "px, not a unitless multiplier." },
+        "fontWeight": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 900,
+          "multipleOf": 100
+        },
+        "letterSpacing": { "type": "number", "description": "px; negative allowed." },
+        "fontFamilyRole": {
+          "type": "string",
+          "description": "Key into typography.fontFamilies[].role."
+        },
+        "textTransform": {
+          "type": "string",
+          "enum": ["none", "uppercase", "lowercase", "capitalize"]
+        }
+      }
+    },
+    "shadow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "blur", "spread", "color"],
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "blur": { "type": "number", "minimum": 0 },
+        "spread": { "type": "number" },
+        "color": { "$ref": "#/$defs/hex" },
+        "inset": { "type": "boolean", "default": false }
+      }
+    }
+  }
+}

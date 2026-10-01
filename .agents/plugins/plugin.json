@@ -1,0 +1,50 @@
+{
+  "$schema": "https://raw.githubusercontent.com/openagent/spec/main/schemas/plugin.schema.json",
+  "name": "kage-bunshin-ui-ux",
+  "version": "1.0.0",
+  "description": "High-fidelity UI cloning: screenshot or URL to editable Figma Auto Layout frames, Google Stitch DESIGN.md, or responsive React/Tailwind and single-file HTML, with an adversarial visual verification loop.",
+  "author": "kage-bunshin-ui-ux contributors",
+  "license": "MIT",
+  "homepage": "https://github.com/OWNER/kage-bunshin-ui-ux",
+  "repository": "https://github.com/OWNER/kage-bunshin-ui-ux",
+  "keywords": [
+    "ui-cloning",
+    "design-system",
+    "figma",
+    "google-stitch",
+    "tailwind",
+    "screenshot-to-code",
+    "visual-diff",
+    "vlm"
+  ],
+  "category": "design",
+  "skills": [
+    {
+      "name": "kage-bunshin-ui-ux",
+      "path": "SKILL.md",
+      "description": "Replicate a UI screenshot or URL into Figma, Google Stitch, or code with adversarial visual verification."
+    }
+  ],
+  "targets": [
+    {
+      "platform": "cursor",
+      "manifest": ".cursor-plugin/plugin.json"
+    },
+    {
+      "platform": "claude",
+      "manifest": ".claude-plugin/plugin.json"
+    },
+    {
+      "platform": "codex",
+      "manifest": ".codex/plugin.json"
+    }
+  ],
+  "requires": {
+    "python": ">=3.10",
+    "node": ">=18",
+    "mcp": [
+      "figma-console-mcp",
+      "mcp_stitch"
+    ]
+  }
+}
