@@ -5,8 +5,8 @@
   "description": "High-fidelity UI cloning: screenshot or URL to editable Figma Auto Layout frames, Google Stitch DESIGN.md, or responsive React/Tailwind and single-file HTML, with an adversarial visual verification loop.",
   "author": "kage-bunshin-ui-ux contributors",
   "license": "MIT",
-  "homepage": "https://github.com/OWNER/kage-bunshin-ui-ux",
-  "repository": "https://github.com/OWNER/kage-bunshin-ui-ux",
+  "homepage": "https://github.com/ibnuhnf/kage-bunshin-ui-ux",
+  "repository": "https://github.com/ibnuhnf/kage-bunshin-ui-ux",
   "keywords": [
     "ui-cloning",
     "design-system",

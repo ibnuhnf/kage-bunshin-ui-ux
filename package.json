@@ -1,0 +1,12 @@
+{
+  "name": "kage-bunshin-ui-ux",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "verify": "node scripts/verify_interactions.mjs",
+    "verify:sample": "node scripts/verify_interactions.mjs --target tests/fixtures/interaction-smoke.html"
+  },
+  "devDependencies": {
+    "playwright": "^1.52.0"
+  }
+}

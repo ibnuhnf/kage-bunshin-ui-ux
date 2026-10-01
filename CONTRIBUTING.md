@@ -21,7 +21,7 @@ Thanks for helping improve `kage-bunshin-ui-ux`.
 ## Development setup
 
 ```bash
-git clone https://github.com/OWNER/kage-bunshin-ui-ux.git
+git clone https://github.com/ibnuhnf/kage-bunshin-ui-ux.git
 cd kage-bunshin-ui-ux
 pip install pillow numpy scikit-learn opencv-python scikit-image pytest
 npm install
@@ -40,7 +40,7 @@ npx playwright install chromium
 
 - **Markdown:** ATX headings, fenced code blocks with a language tag, tables for enumerations of three or more.
 - **Python:** standard library first, `argparse` CLIs, type hints on public functions, no print-debugging left behind.
-- **JavaScript:** ESM, top-level `await`, explicit `--flag` parsing, fail loudly on a missing input.
+- **JavaScript:** ESM, explicit `--flag` parsing, fail loudly on a missing input.
 - **Naming:** files `kebab-case.md`, scripts `snake_case.py` and `camelCase.mjs`.
 
 ## Commit messages

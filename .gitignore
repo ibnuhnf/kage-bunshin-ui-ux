@@ -24,6 +24,7 @@ playwright/.cache/
 out/
 tmp/
 *.local
+e2e_tokens.json
 
 # OS / editor
 .DS_Store

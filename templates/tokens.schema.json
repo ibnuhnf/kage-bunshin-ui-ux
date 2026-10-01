@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/OWNER/kage-bunshin-ui-ux/templates/tokens.schema.json",
+  "$id": "https://github.com/ibnuhnf/kage-bunshin-ui-ux/templates/tokens.schema.json",
   "title": "Kage Bunshin Design Tokens",
   "description": "Semantic design tokens extracted from a UI source (screenshot or URL). Colors are normalized to 0.0-1.0 to match the Figma Plugin API; a parallel 8-bit representation is kept for CSS output and WCAG contrast math.",
   "type": "object",

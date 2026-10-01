@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kage Bunshin Interaction Smoke</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #f6f6f6;
+      color: #050507;
+      font-family: Inter, system-ui, sans-serif;
+    }
+
+    main {
+      width: min(420px, calc(100vw - 32px));
+      padding: 24px;
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 12px 48px rgb(0 0 0 / 12%);
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      background: #090df3;
+      color: white;
+      font-weight: 700;
+    }
+
+    button:hover {
+      background: #0507b8;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      margin: 16px 0;
+      padding: 12px 14px;
+      border: 2px solid #d6d6df;
+      border-radius: 12px;
+      font: inherit;
+    }
+
+    input:focus {
+      outline: 3px solid #b9c4ff;
+      border-color: #090df3;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Clone Target</h1>
+    <p>Stable smoke fixture for interaction verification.</p>
+    <input name="email" placeholder="Email address">
+    <button type="button">Continue</button>
+  </main>
+</body>
+</html>
