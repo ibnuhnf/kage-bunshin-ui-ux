@@ -61,7 +61,12 @@ Emit **one** target per run unless the user asks for several.
 3. Call `mcp_stitch:create_screen` (`stitch::generate-design`).
 4. Return the screen URL.
 
-**Target C — Code**
+**Target C — Markdown contract**
+1. Compile the completed IR into an AI-readable implementation contract:
+   `python scripts/ir_to_markdown.py --input <ir.json> --output <design.md>`.
+2. Treat the Markdown file as the exact hand-off specification for tokens, layout, content, components, states, and verification gates.
+
+**Target D — Code**
 1. Semantic HTML (`<header>`, `<main>`, `<article>`, `<button>`) — no absolute positioning.
 2. Responsive Tailwind utilities (`flex`, `grid`, `gap-4`, `rounded-xl`) or a single self-contained HTML file.
 3. Return file paths.
@@ -100,6 +105,7 @@ Report: Figma node IDs, Stitch screen URL, code file paths, and the final SSIM/M
 - `scripts/extract_tokens.py` — color palette, WCAG contrast, radii extraction.
 - `scripts/visual_diff.py` — MAE / SSIM plus diff heatmap.
 - `scripts/verify_interactions.mjs` — Playwright hover/focus/active verification.
+- `scripts/ir_to_markdown.py` — deterministic IR to AI-readable Markdown contract.
 
 ## Failure modes to avoid
 

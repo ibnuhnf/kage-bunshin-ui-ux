@@ -8,6 +8,7 @@ An open-standard **Agent Skill** that takes a UI screenshot or a webpage URL and
 |---|---|
 | **Figma** | Editable frame with Auto Layout, Variable-bound paints, and a Component Set |
 | **Google Stitch** | `.stitch/DESIGN.md` design system plus an MCP-generated screen |
+| **Markdown contract** | AI-readable implementation specification generated from the IR |
 | **Code** | Responsive React + Tailwind, or a single self-contained HTML file |
 
 Every target is then pushed through an **adversarial visual verification loop** — render, compare (SSIM / MAE), correct atomically, repeat — until it converges.
@@ -121,6 +122,9 @@ python scripts/visual_diff.py --original hero.png --rendered render.png --heatma
 
 # Verify interactive states on a rendered page
 node scripts/verify_interactions.mjs --target http://localhost:3000
+
+# Compile the IR into a Markdown contract for an AI or developer
+python scripts/ir_to_markdown.py --input artifacts/intermediate_representation.json --output artifacts/design-contract.md
 ```
 
 `verify_interactions.mjs` accepts a URL or local HTML file. Useful options:
@@ -151,10 +155,12 @@ with matching intended viewport dimensions whenever possible.
 python scripts/extract_tokens.py --input designs/dashboard.png --output artifacts/tokens.json
 
 # 2. Ask the agent to create the IR and chosen target from the screenshot
-# 3. Start the generated page, then verify interactions
+# 3. Create the AI-readable Markdown contract from the completed IR
+python scripts/ir_to_markdown.py --input artifacts/intermediate_representation.json --output artifacts/design-contract.md
+# 4. Start the generated page, then verify interactions
 node scripts/verify_interactions.mjs --target http://localhost:3000 --json
 
-# 4. Capture a render at the same viewport and compare it to the source
+# 5. Capture a render at the same viewport and compare it to the source
 python scripts/visual_diff.py --original designs/dashboard.png --rendered artifacts/render.png --heatmap artifacts/diff.png
 ```
 
@@ -177,6 +183,7 @@ Expect:
 
 - `tokens.json` from token extraction.
 - An intermediate representation based on `templates/intermediate_representation.json`.
+- `design-contract.md`, generated from the IR and used as the exact AI/developer hand-off specification.
 - Target-specific files, nodes, or screen references.
 - Visual metrics and a diff heatmap after rendering.
 
@@ -258,6 +265,7 @@ kage-bunshin-ui-ux/
 │   └── verification-checklist.md
 ├── scripts/
 │   ├── extract_tokens.py
+│   ├── ir_to_markdown.py
 │   ├── visual_diff.py
 │   └── verify_interactions.mjs
 ├── tests/
